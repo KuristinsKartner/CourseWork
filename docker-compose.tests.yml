@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+
+  sqldata-test:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+
+  registry-api-test:
+    image: ${REGISTRY:-registry}/registry.api.test:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Correspondence/Dockerfile
+      target: test
+    depends_on:
+      - sqldata-test
+    volumes:
+      - registry-test-data:/tests-results/

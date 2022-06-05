@@ -1,0 +1,70 @@
+﻿{
+   "CodeGenerationMode": 0,
+   "ContextClassName": "CorrespContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": null,
+   "ProjectRootNamespace": "Correspondence",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "author",
+         "ObjectType": 0
+      },
+      {
+         "Name": "dtype",
+         "ObjectType": 0
+      },
+      {
+         "Name": "event",
+         "ObjectType": 0
+      },
+      {
+         "Name": "files",
+         "ObjectType": 0
+      },
+      {
+         "Name": "main",
+         "ObjectType": 0
+      },
+      {
+         "Name": "place",
+         "ObjectType": 0
+      },
+      {
+         "Name": "subevent",
+         "ObjectType": 0
+      },
+      {
+         "Name": "subtheme",
+         "ObjectType": 0
+      },
+      {
+         "Name": "theme",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": ".test",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}

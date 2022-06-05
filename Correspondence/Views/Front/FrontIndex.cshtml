@@ -1,0 +1,301 @@
+﻿@using Correspondence.ViewModels;
+@using Microsoft.AspNetCore.Antiforgery;
+@model ViewModel
+
+@inject IAntiforgery antiforgery
+@{
+    @Html.AntiForgeryToken()
+    ViewBag.Title = "Главная страница";
+}
+<div class="div-text">
+
+
+    <div class="div-text-img">
+        Добро пожаловать в мир книг! <br> Тут можно найти крутые книги в оригинальном, перепечатанном и переписанном виде. Располагайтесь :3
+    </div>
+</div>
+<div class="div-front">
+
+    <div class="div-filter">
+
+        <form asp-controller="Front" asp-action="SetFilter" enctype="multipart/form-data" id="filter">
+            <input type="hidden" id="minyear" value="@Model.Filter.MinYear" />
+            <input type="hidden" id="maxyear" value="@Model.Filter.MaxYear" />
+            <div class="form-inner adminindex">
+                <div class="div-namefilter">
+                    <label>Фильтр</label>
+                </div>
+                <div class="">
+                    <label>Код: </label>
+                    <input type="text" name="id" value="@Model.Filter.ID" onchange="gopost()" class="o_ver_input">
+                </div>
+
+                <div class="">
+                    <label>Название книги: </label>
+                    <input class="in-event o_ver_input" type="text" onchange="gopost()" name="events" value="@Model.Filter.Events" />
+                </div>
+                <div class="">
+                    <label>Автор: </label>
+                    <input type="text" name="author" value="@Model.Filter.Author" onchange="gopost()" class="o_ver_input">
+                </div>
+                <div class="">
+                    <label>Жанр: </label>
+                    <input class="in-plus_event o_ver_input" type="text" onchange="gopost()" name="subevent" value="@Model.Filter.Subevent" />
+                </div>
+
+                <div class="">
+
+                    <label>Название папки: </label>
+                    <input type="text" class="in-text_loc in-folder o_ver_input" onchange="gopost()" name="folder" value="@Model.Filter.Folder" />
+                </div>
+                <div class="">
+                    <label>Местоположение: </label>
+                    <input type="text" class="in-text_loc in-location o_ver_input" onchange="gopost()" name="place" value="@Model.Filter.Place" />
+                </div>
+
+
+                <div class="mydate div-slider">
+                    <p class="div_line">
+                        <label class="label-slider" for="amount">Выбор даты:</label>
+                        <input type="text" name="date" id="amount" readonly>
+                    </p>
+                    <div id="slider-range"></div>
+                </div>
+                <div class="">
+                    <label>Тема: </label>
+                    <input class="in-topic o_ver_input" type="text" onchange="gopost()" name="theme" value="@Model.Filter.Theme" />
+                </div>
+                <div class="">
+                    <label>Подтема: </label>
+                    <input class="in-plus_topic o_ver_input" type="text" onchange="gopost()" name="subtheme" value="@Model.Filter.Subtheme" />
+                </div>
+
+                <input id="btn_goout" type="submit" class="my_btn btn_delete" asp-action="ClearFilter" value="Очистить" />
+            </div>
+        </form>
+    </div>
+    <div class="div-front-table">
+
+        <div class="div-table">
+          
+            <div class="div_line_front">
+                <label>Сортировка по</label>
+                <select required id="expression" class="option" name="expression" asp-items="Model.Sort.Expression" onchange="sorting()">
+                </select>
+            </div>
+            <div class="div_line_front">
+                <label>Поле</label>
+                <select required id="field" class="option" name="field" asp-items="Model.Sort.Field" onchange="sorting()">
+                </select>
+            </div>
+        </div>
+        <div>
+            <table class="table" id="globaltable">
+                <tr>
+                   
+                    <th>
+                        Код
+                    </th>
+                    <th>
+                        Название книги
+                    </th>
+                    <th>
+                        Автор
+                    </th>
+                    <th>
+                        Жанр
+                    </th>
+                    <th>
+                        Папка
+                    </th>
+                    <th>
+                        Местоположение
+                    </th>
+                    <th>
+                        Дата
+                    </th>
+
+
+                    <th>
+                        Тема
+                    </th>
+                    <th>
+                        Подтема
+                    </th>
+                </tr>
+                @if (Model.Table != null)
+                {
+                    foreach (TableModel item in Model.Table)
+                    {
+                    <tr class="table_row">
+                        <td class="id_from_table">@item.Id</td>
+                        <td>@item.Event</td>
+                        <td>@item.Author</td>
+                        <td>@item.Subevent</td>
+                        <td>@item.Folder</td>
+                        <td>@item.Place</td>
+                        <td>@item.Date</td>
+                        <td>@item.Theme</td>
+                        <td>@item.Subtheme</td>
+                    </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="btns-under-table">
+            <div class="div-forbuttons">
+                <div class="div_line_front">
+
+                    <span class=""><img class="input__file-icon" src="./css/icon-add.png" alt="Добавить" width="20"></span>
+                    <button id="">Добавить</button>
+                </div>
+                <div class="div_line_front">
+                    <span class=""><img class="input__file-icon" src="./css/icon-edit.png" alt="Редактировать" width="20"></span>
+                    <button id="">Редактировать</button>
+                </div>
+                <div class="div_line_front">
+                    <span class=""><img class="input__file-icon" src="./css/icon-remove.png" alt="Удаление" width="20"></span>
+                    <button id="">Удалить</button>
+                </div>
+            </div>
+            <div class="div-forbuttons">
+                <div class="div_line_front">
+
+                    <span class=""><img class="input__file-icon" src="./css/icon-report.png" alt="Запустить отчет 1" width="20"></span>
+                    <button id="otchetaboutbook">Отчет о книгах</button>
+                </div>
+                <div class="div_line_front">
+                    <span class=""><img class="input__file-icon" src="./css/icon-author.png" alt="Запустить отчет 2" width="20"></span>
+                    <button id="otchetaboutauthors">Отчет об авторах</button>
+                </div>
+                <div class="div_line_front">
+                    <span class=""><img class="input__file-icon" src="./css/icon-genre.png" alt="Запустить отчет 3" width="20"></span>
+                    <button id="multiEditNotes">Отчет о жанрах</button>
+                </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <span class="close2">&times;</span>
+        <div class="add-modal">
+
+            <form asp-controller="Front" asp-action="SetFilter" enctype="multipart/form-data" id="form_elem" class="decor">
+                <table class="table" id="tableId">
+                    <tr>
+                        <th>
+                            Код
+                        </th>
+                        <th>
+                            Название книги
+                        </th>
+                        <th>
+                            Автор
+                        </th>
+                    </tr>
+                    @if (Model.Table != null)
+                    {
+                        foreach (TableModel item in Model.Table)
+                        {
+                        <tr class="table_row">
+
+                            <td class="id_from_table">@item.Id</td>
+                            <td>@item.Event</td>
+                            <td>@item.Author</td>
+
+                        </tr>
+                        }
+                    }
+                </table>
+                <div id="div0_charizma">
+                    
+                   <p>Всего книг: <span id ="countBooks"></span></p>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div id="myModal2" class="modal">
+    <div class="modal-content">
+        <span class="close3">&times;</span>
+        <div class="add-modal">
+
+            <form asp-controller="Front" asp-action="SetFilter" enctype="multipart/form-data" id="form_elem" class="decor">
+                <table class="table" id="tableId_forauthor">
+                    <tr>
+                        <th>
+                            Код
+                        </th>
+                        <th>
+                            Автор
+                        </th>
+                    </tr>
+                    @if (Model.Table != null)
+                    {
+                        foreach (TableModel item in Model.Table)
+                        {
+                            <tr class="table_row">
+
+                                <td class="id_from_table">@item.Id</td>
+                                <td>@item.Author</td>
+
+                            </tr>
+                        }
+                    }
+                </table>
+                <div id="div_charizma">
+
+                    <p>Всего авторов: <span id="countAuthors"></span></p>
+                    <p>Перечень авторов: <span id="listAuthors"></span></p>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div id="myModal3" class="modal">
+    <div class="modal-content">
+        <span class="close4">&times;</span>
+        <div class="add-modal">
+
+            <form asp-controller="Front" asp-action="SetFilter" enctype="multipart/form-data" id="form_elem" class="decor">
+                <table class="table" id=" ">
+                    <tr>
+                        <th>
+                            Код
+                        </th>
+                        <th>
+                            Название книг
+                        </th>
+                        <th>
+                            Жанр
+                        </th>
+                    </tr>
+                    @if (Model.Table != null)
+                    {
+                        foreach (TableModel item in Model.Table)
+                        {
+                        <tr class="table_row">
+                            <td class="id_from_table">@item.Id</td>
+                            <td>@item.Event</td>
+                            <td>@item.Subevent</td>
+                        </tr>
+                        }
+                    }
+                </table>
+                <div id="div2_charizma">
+
+                    <p>Всего жанров: <span id="mytitle"></span></p>
+                    <p>Количество жанров и им соответствующие книги: <span id="counttitle"></span></p>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

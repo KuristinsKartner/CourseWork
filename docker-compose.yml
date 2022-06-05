@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+
+  registry-api:
+    image: ${REGISTRY:-registry}/registry:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - sqldata

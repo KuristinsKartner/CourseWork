@@ -1,0 +1,112 @@
+﻿
+@*@page "{handler?}"*@
+@model IndexViewModel
+@using Correspondence.ViewModels
+@using Microsoft.AspNetCore.Antiforgery;
+@inject IAntiforgery antiforgery
+@{
+    ViewBag.Title = "Index";
+    @Html.AntiForgeryToken()
+}
+<form asp-controller="Home" asp-action="OnPostMyFile" method="post" id="form_elem" class="decor" enctype="multipart/form-data">
+    <div class="form-inner">
+
+        <h3 >Новая запись будет иметь id = @ViewBag.Message</h3>
+
+        <div class="pic_plus_another" id="all_dnd">
+            <div id="drop-area1" class="pic1 input__wrapper">
+                <input name="file_scan" type="file" id="input__file1" class="input input__file1" onchange="change_file_scan(this.files)">
+                <label for="input__file1" class="input__file-button">
+                    <span class="input__file-icon-wrapper input__file-icon-wrapper-download"><img class="input__file-icon" src="./css/download.png" alt="Выбрать файл" width="27"></span>
+                    <span class="input__file-button-text" id="in__text_scan"><a>Загрузка файла</a></span>
+                </label>
+            </div>
+            <div id="drop-area2" class="pic1 input__wrapper">
+                <input name="file_format" type="file" id="input__file2" class="input input__file2" onchange="change_file_format(this.files)">
+                <label for="input__file2" class="input__file-button">
+                    <span class="input__file-icon-wrapper"><img class="input__file-icon" src="./css/download.png" alt="Выбрать файл" width="27"></span>
+                    <span class="input__file-button-text" id="in__text_format"><a>Загрузка файла</a></span>
+                </label>
+            </div>
+            <div id="drop-area3" class="pic1 input__wrapper">
+                <input name="file_sverst" type="file" id="input__file3" class="input input__file3" onchange="change_file_sverst(this.files)">
+                <label for="input__file3" class="input__file-button">
+                    <span class="input__file-icon-wrapper"><img class="input__file-icon" src="./css/download.png" alt="Выбрать файл" width="27"></span>
+                    <span class="input__file-button-text" id="in__text_sverst">Загрузка файла</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="pic_plus_another">
+            <div class="pic1">
+                <span class="span__name">Сканиров. копия</span>
+                <span class="input__file-button-wrapper input__file-icon-wrapper-delete" onclick="clickSpan_scan_delete(this);"><img class="input__file-icon" src="./css/delete.png" alt="удалить файл" width="10"></span>
+
+            </div>
+            <div class="pic1">
+                <span class="span__name">Форматир. текст</span>
+                <span class="input__file-button-wrapper input__file-icon-wrapper-delete" onclick="clickSpan_format_delete(this);"><img class="input__file-icon" src="./css/delete.png" alt="удалить файл" width="10"></span>
+
+            </div>
+            <div class="pic1">
+                <span class="span__name">Сверстанный текст</span>
+                <span class="input__file-button-wrapper input__file-icon-wrapper-delete" onclick="clickSpan_sverst_delete(this);"><img class="input__file-icon" src="./css/delete.png" alt="удалить файл" width="10"></span>
+
+            </div>
+        </div>
+        <div class="div_line">
+            <label>Автор: </label>
+            <input type="text" name="author" class="o_ver_input">
+        </div>
+        <div class="div_line">
+            <label class="time_ld">
+                дд_мм_гггг:
+            </label>
+            <div class="time_ld">
+                <div class="date">
+                    <input class="in-dmy o_ver_input" type="number" min="1" max="31" step="1" name="day" pattern="\d{1,2}" />
+                    <input class="in-dmy o_ver_input" type="number" min="1" max="12" step="1" name="month" pattern="\d{1,2}" />
+                    <input class="in-dmy o_ver_input" type="number" min="1900" max=@DateTime.Now.Year step="1" name="year" pattern="[0-9]{4}" />
+                </div>
+            </div>
+
+        </div>
+        <div class="div_line">
+            <label>Событие: </label>
+            <input class="in-event o_ver_input" type="text" name="events" />
+        </div>
+        <div class="div_line">
+            <label>Доп. событие: </label>
+            <input class="in-plus_event o_ver_input" type="text" name="plus_event" />
+        </div>
+        <div class="div_line">
+            <label>Тема: </label>
+            <input class="in-topic o_ver_input" type="text" name="topic" />
+        </div>
+        <div class="div_line">
+            <label>Доп. тема: </label>
+            <input class="in-plus_topic o_ver_input" type="text" name="plus_topic" />
+        </div>
+        <div class="div_line">
+            <label>Название папки: </label>
+            <input type="text" class="in-text_loc in-folder o_ver_input" required name="folder" />
+        </div>
+        <div class="div_line">
+            <label>Местоположение: </label>
+            <input type="text" class="in-text_loc in-location o_ver_input" required name="place" />
+        </div>
+        <div class="pic_plus_another">
+            <select required class="option" name="DtypeId" asp-for="DtypeId" asp-items="Model.Options">
+                <option value="">Выберите вид документа</option>
+            </select>
+            <input type="checkbox" id="custom_checkbox" name="custom_checkbox" class="o_ver_input" value="true">
+            <label for="custom_checkbox">Не публичный документ</label>
+        </div>
+        <div class="div_line">
+            <label>Комментарий:  </label>
+            <textarea name="comment" rows="3"></textarea>
+        </div>
+        <input type="submit" class="my_btn" value="Отправить">
+        
+    </div>
+</form>
